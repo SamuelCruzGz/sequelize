@@ -1,23 +1,33 @@
+//Importamos los modulos
 const express = require('express')
 const app = express()
 require('dotenv').config()
-const sequelize = require ('./db/conexion')
-const productosRoutes = require('./routes/productos.routes')
+const sequelize = require('./db/conexion')
+const productosRoute = require('./routes/productos.routes')
+const categoriaRoutes = require('./routes/categorias.routes')
 
 
+//Middleware globales
 app.use(express.json())
 
-async function inicioServidor(){
+//Iniciamos nuestro servidor
+
+async function inicioServidor() {
     try {
-        await sequelize.authenticate()
-        console.log('Conexion correcta');
-        app.listen(process.env.PORT, function(){
-            console.log('Sistema Iniciado');
+        //console.log(process.env.DB_USER)
+        await sequelize.authenticate();
+        console.log('Conexion con la DB correcta!')
+        app.listen(process.env.PORT, function (){
+            console.log(`Sistema iniciado en el puerto ${process.env.PORT}`)
         })
-    } catch (e) {
-        console.log(e);
-        console.log('No se conecto con la DB');
+    }catch (err){
+        console.log(err)
+        console.log('No se pudo conectar con la DB')
     }
 }
-inicioServidor()
-productosRoutes(app)
+
+inicioServidor();
+
+//Routes
+productosRoute(app);
+categoriaRoutes(app);

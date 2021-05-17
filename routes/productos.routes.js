@@ -1,29 +1,31 @@
-const productoService = require ('../services/producto.services')
+//Importar los modulos
+const librosServices = require('../services/productos.services')
 
-module.exports = (app) => {
-    app.get('/libros', async (req, res)=>{
+module.exports = (app)=> {
+
+    app.get('/producto', async (req,res)=> {
         try {
-            let resp = await productoService.listarProducto()
-            res.json(resp)
-        } catch (e) {
-            console.log(e);
-            res.status(500).json({error:e.message})
+            let resultado = await librosServices.listarProductos()
+            res.json(resultado)
+        }catch (err) {
+            console.log(err)
+            res.status(500).json({error: err.message})
         }
+    });
+
+    app.get('/producto/:descripcion' , async (req,res)=> {
+        let titulo = req.params.titulo
     })
 
-    app.get('/libros/:titulo', async (req, res)=>{
-        let descripcion_prod = req.params.descripcion_prod
-    })
-
-    app.post('/libros', async  (req, res)=>{
-        let producto = req.body
+    app.post('/producto', async (req,res)=>{
+        let libro = req.body
         try {
-            let resp = await productoService.nuevoProducto(producto)
-            console.log(resp);
-            res.json('El producto fue añadido correctamente')
-        } catch (e) {
-            console.log(e);
-            res.status(500).json({error:e.message})
+            let resultado = await librosServices.nuevoProducto(libro)
+            console.log(resultado)
+            res.json('El producto fue guardado correctamente en la DB')
+        }catch (err) {
+            console.log(err)
+            res.status(500).json({error: err.message})
         }
     })
 }

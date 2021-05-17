@@ -1,24 +1,21 @@
-const Sequelize = require ('sequelize')
-var host = process.env.HOST
-var por = process.env.PORT
-var user = process.env.username
-var pass = process.env.password
+const Sequelize = require('sequelize')
+
 
 const sequelize = new Sequelize('Tienda_01', null, null, {
-    dialect : 'mssql',
-    server : host,
-    port : por,
-    dialectOptions : {
-        authentication : {
-            type : 'default',
-            options : {
-                encrypt : true,
-                userName : user,
-                password : pass
-
-            }
-        },
+    dialect: 'mssql',
+    server: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialectOptions: {
+      authentication: {
+        type: 'default',
+        options: {
+          encrypt: true,
+          userName: process.env.DB_USER,
+          password: process.env.DB_PASS
+        }
+      },
     }
-})
+  })
+  
 
-module.exports = sequelize
+module.exports = sequelize;
